@@ -1,2 +1,2 @@
 # Anya-Baji
-SE-6 (GD) Project
+ SE-6 (GD) Project
