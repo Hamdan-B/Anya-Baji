@@ -1,5 +1,6 @@
 using Cinemachine;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Tut_Grandma : MonoBehaviour
 {
@@ -9,26 +10,42 @@ public class Tut_Grandma : MonoBehaviour
     TutorialSceneManager tutorialSceneManager;
 
     public CinemachineVirtualCamera grandmaVirtualCam;
+    PlayerControls playerControls;
+
+    private void Awake()
+    {
+        playerControls = new PlayerControls();
+        playerControls.Interaction.Enable();
+        playerControls.Interaction.NPC_Interact.performed += onInteract;
+    }
+
+    private void OnDisable()
+    {
+        playerControls.Interaction.Disable();
+        playerControls.Interaction.NPC_Interact.performed -= onInteract;
+    }
 
     void Start()
     {
         tutorialSceneManager = FindObjectOfType<TutorialSceneManager>();
     }
 
-    void Update()
+    void Update() { }
+
+    void onInteract(InputAction.CallbackContext context)
     {
-        if (isInside && Input.GetKeyDown(KeyCode.E) && !dialogueStart)
+        if (isInside && !dialogueStart)
         {
             FindObjectOfType<PlayerManager>().SwitchCamera(grandmaVirtualCam);
             if (tutorialSceneManager.task3)
             {
                 ThankAnyaForTomato();
             }
-            else
+            else if (!tutorialSceneManager.task1)
             {
                 AskAnyaToFindGrandpa();
             }
-            GameObject.FindGameObjectWithTag("ActionText").SetActive(false);
+            //GameObject.FindGameObjectWithTag("NpcInteractBtn").SetActive(false);
         }
     }
 
@@ -49,6 +66,7 @@ public class Tut_Grandma : MonoBehaviour
         npcDialogueSystem.StartDialogue();
         dialogueStart = true;
         tutorialSceneManager.task1 = true;
+        tutorialSceneManager.IndicateToGrandpa();
     }
 
     void ThankAnyaForTomato()
@@ -60,6 +78,6 @@ public class Tut_Grandma : MonoBehaviour
         };
         npcDialogueSystem.StartDialogue();
         dialogueStart = true;
-        tutorialSceneManager.task5 = true;
+        tutorialSceneManager.task4 = true;
     }
 }

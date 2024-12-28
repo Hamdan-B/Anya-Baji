@@ -6,16 +6,44 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    public CinemachineFreeLook tppCam;
+    public CinemachineVirtualCamera playerCam;
     public GameObject mesh;
 
+    NpcDialogue npcDialogue;
     public bool isDialogueFinished;
 
     public List<string> inventoryItems = new List<string>();
 
-    void Start() { }
+    public GameObject arrow;
+    public Transform indicatorTarger;
 
-    void Update() { }
+    public float stopDistance = 1f;
+
+    void Start()
+    {
+        npcDialogue = FindObjectOfType<NpcDialogue>();
+    }
+
+    void Update()
+    {
+        //Arrow indicator
+        if (indicatorTarger != null)
+        {
+            float distance = Vector3.Distance(transform.position, indicatorTarger.position);
+
+            if (distance > stopDistance && !npcDialogue.isDialogueShown)
+            {
+                Vector3 direction = indicatorTarger.position - transform.position;
+                direction.y = 0;
+                arrow.transform.rotation = Quaternion.LookRotation(direction);
+                arrow.SetActive(true);
+            }
+            else
+            {
+                arrow.SetActive(false);
+            }
+        }
+    }
 
     public void HidePlayer()
     {
@@ -48,5 +76,6 @@ public class PlayerManager : MonoBehaviour
         {
             v_cam.Priority = 5;
         }
+        playerCam.Priority = 10;
     }
 }

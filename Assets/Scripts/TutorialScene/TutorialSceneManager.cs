@@ -10,8 +10,11 @@ public class TutorialSceneManager : MonoBehaviour
     public bool task1,
         task2,
         task3,
-        task4,
-        task5;
+        task4;
+
+    public GameObject GrandmaObj,
+        GrandpaObj,
+        ShopwalaObj;
 
     PlayerManager playerManager;
     public NpcDialogue dialogueSystem;
@@ -28,7 +31,7 @@ public class TutorialSceneManager : MonoBehaviour
 
     void Start()
     {
-        task1 = task2 = task3 = task4 = task5 = false;
+        task1 = task2 = task3 = task4 = false;
         playerManager = FindObjectOfType<PlayerManager>();
 
         cart.SetActive(false);
@@ -43,6 +46,8 @@ public class TutorialSceneManager : MonoBehaviour
         loadingSystem = GameObject
             .FindGameObjectWithTag("LoadingSystem")
             .GetComponent<LoadingSystem>();
+
+        IndicateToGrandma();
     }
 
     private void OnDestroy()
@@ -53,18 +58,14 @@ public class TutorialSceneManager : MonoBehaviour
 
     void Update()
     {
-        if (task5)
+        if (task4)
         {
             //Tutorial Complete
             dialogueSystem.OnDialogueFinished += HandleDialogueFinished;
         }
-        else if (task4)
-        {
-            taskText.text = "Go to grandma and give her the Tomaotes.";
-        }
         else if (task3)
         {
-            taskText.text = "Collect all the tomatoes!\nPress 'F' to reset Cart";
+            taskText.text = "Go to grandma and give her the Tomaotes.";
         }
         else if (task2)
         {
@@ -79,40 +80,22 @@ public class TutorialSceneManager : MonoBehaviour
             taskText.text = "Grandma looks angry, talk to Grandma.";
         }
 
-        if (task3 && !handleDialogueAssigned)
-        {
-            dialogueSystem.OnDialogueFinished += HandleDialogueFinished;
-            handleDialogueAssigned = true;
-        }
+        // if (task3 && !handleDialogueAssigned)
+        // {
+        //     dialogueSystem.OnDialogueFinished += HandleDialogueFinished;
+        //     handleDialogueAssigned = true;
+        // }
 
-        if (
-            collectableContainer.activeInHierarchy
-            && collectableContainer.transform.childCount <= 0
-        )
-        {
-            task4 = true;
-            dialogueSystem.OnDialogueFinished -= HandleDialogueFinished;
-        }
-        if (task4 && cart.activeInHierarchy)
-        {
-            StopCartThing();
-        }
-
-        // Hided the tutorial text after timer end
+        // Hide the tutorial text after timer end
     }
 
     private void HandleDialogueFinished()
     {
         Debug.Log("Dialogue is done. Running Dialogue Finished function...");
-        if (task5)
+        if (task4)
         {
             //ss
             LevelComplete();
-        }
-        else if (task3)
-        {
-            if (!cartEventComplete)
-                StartCartThing();
         }
     }
 
@@ -156,5 +139,21 @@ public class TutorialSceneManager : MonoBehaviour
         PlayerPrefs.SetInt("LevelsUnlocked", 1);
         //ScreenCapture.CaptureScreenshot("TutorialSS.png");
         loadingSystem.LoadScene("Title");
+    }
+
+    //Indications
+    public void IndicateToGrandma()
+    {
+        playerManager.indicatorTarger = GrandmaObj.transform;
+    }
+
+    public void IndicateToGrandpa()
+    {
+        playerManager.indicatorTarger = GrandpaObj.transform;
+    }
+
+    public void IndicateToShopwala()
+    {
+        playerManager.indicatorTarger = ShopwalaObj.transform;
     }
 }

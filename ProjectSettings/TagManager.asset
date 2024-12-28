@@ -6,6 +6,10 @@ TagManager:
   tags:
   - LoadingSystem
   - ActionText
+  - Ball
+  - NpcInteractBtn
+  - PlayerTouchControls
+  - MovingPlatform
   layers:
   - Default
   - TransparentFX

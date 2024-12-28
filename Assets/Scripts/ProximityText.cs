@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class ProximityText : MonoBehaviour
 {
-    public GameObject messageUI;
+    public GameObject interactBtn;
 
     public UnityEvent onTriggerEnterAction;
     public UnityEvent onTriggerExitAction;
@@ -14,7 +14,7 @@ public class ProximityText : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            messageUI.SetActive(true);
+            interactBtn.SetActive(true);
             onTriggerEnterAction?.Invoke();
         }
     }
@@ -23,7 +23,7 @@ public class ProximityText : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            messageUI.SetActive(false);
+            interactBtn.SetActive(false);
             onTriggerExitAction?.Invoke();
         }
     }

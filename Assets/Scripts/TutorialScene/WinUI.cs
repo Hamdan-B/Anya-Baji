@@ -21,7 +21,7 @@ public class WinUI : MonoBehaviour
 
     private void Start()
     {
-        uiRestartButton.onClick.AddListener(() => SceneManager.LoadScene("Tutorial"));
+        uiRestartButton.onClick.AddListener(() => SceneManager.LoadScene("Level1"));
         board.OnEndGameEvent += OnEndGameEvent;
 
         uiCanvas.SetActive(false);

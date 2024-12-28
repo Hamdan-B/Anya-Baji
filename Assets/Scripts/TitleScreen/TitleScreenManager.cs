@@ -15,11 +15,6 @@ public class TitleScreenManager : MonoBehaviour
         loadingSystem = GameObject
             .FindGameObjectWithTag("LoadingSystem")
             .GetComponent<LoadingSystem>();
-
-        if (PlayerPrefs.GetInt("tutorialEnd", 0) == 1)
-        {
-            LevelScreen();
-        }
     }
 
     void Update() { }
@@ -27,7 +22,7 @@ public class TitleScreenManager : MonoBehaviour
     public void StartBtn()
     {
         Debug.Log("Start");
-        int firstTime = PlayerPrefs.GetInt("firstTime", 0);
+        int firstTime = PlayerPrefs.GetInt("tutorialEnd", 0);
         if (firstTime == 0)
         {
             //Start Anya's Story (Cutscene or Text)
@@ -50,11 +45,11 @@ public class TitleScreenManager : MonoBehaviour
         Debug.Log("Exit");
     }
 
-    public void StartLevel()
+    public void StartLevel1()
     {
         //Start Level After Cutscene
         temp_IntroPanel.SetActive(false);
-        loadingSystem.LoadScene("Tutorial");
+        loadingSystem.LoadScene("Level1");
     }
 
     void StartIntro()

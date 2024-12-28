@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class TicTacToeEvent : MonoBehaviour
 {
@@ -20,22 +21,33 @@ public class TicTacToeEvent : MonoBehaviour
 
     bool dialogueStart = false;
 
+    PlayerControls playerControls;
+
+    private void Awake()
+    {
+        playerControls = new PlayerControls();
+        playerControls.Interaction.Enable();
+        playerControls.Interaction.NPC_Interact.performed += onInteract;
+    }
+
+    private void OnDisable()
+    {
+        playerControls.Interaction.Disable();
+        playerControls.Interaction.NPC_Interact.performed -= onInteract;
+    }
+
     void Start()
     {
         tutorialSceneManager = FindObjectOfType<TutorialSceneManager>();
     }
 
-    void Update()
+    void Update() { }
+
+    void onInteract(InputAction.CallbackContext context)
     {
-        if (
-            tutorialSceneManager.task1
-            && !tutorialSceneManager.task2
-            && isInside
-            && Input.GetKeyDown(KeyCode.E)
-        )
+        if (tutorialSceneManager.task1 && !tutorialSceneManager.task2 && isInside)
         {
             playerManager.SwitchCamera(boardVirtualCam);
-            GameObject.FindGameObjectWithTag("ActionText").SetActive(false);
             floatingText.gameObject.SetActive(false);
         }
     }
@@ -68,5 +80,6 @@ public class TicTacToeEvent : MonoBehaviour
             "Hurry! run to Mr.Jhinga shop, buy the tomatoes and give them to your grandma.",
         };
         npcDialogueSystem.StartDialogue();
+        tutorialSceneManager.IndicateToShopwala();
     }
 }

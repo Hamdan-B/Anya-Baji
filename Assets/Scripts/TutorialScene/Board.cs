@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 public class Board : MonoBehaviour
 {
@@ -39,6 +40,21 @@ public class Board : MonoBehaviour
     public float delayTime = 1;
     float timer;
 
+    PlayerControls playerControls;
+
+    private void Awake()
+    {
+        playerControls = new PlayerControls();
+        playerControls.Click.Enable();
+        playerControls.Click.Click.performed += ClickHandler;
+    }
+
+    private void OnDisable()
+    {
+        playerControls.Click.Disable();
+        playerControls.Interaction.NPC_Interact.performed -= ClickHandler;
+    }
+
     private void Start()
     {
         cam = Camera.main;
@@ -52,17 +68,18 @@ public class Board : MonoBehaviour
         canPlay = true;
     }
 
-    private void Update()
+    void ClickHandler(InputAction.CallbackContext context)
     {
-        if (timer > 0)
-        {
-            timer -= Time.deltaTime;
-        }
         if (currentMark == Mark.O)
         {
-            if (canPlay && Input.GetMouseButtonUp(0))
+            if (canPlay)
             {
-                Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+                Vector3 _mousePos = new Vector3(
+                    playerControls.Click.Point.ReadValue<Vector2>().x,
+                    playerControls.Click.Point.ReadValue<Vector2>().y,
+                    0
+                );
+                Ray ray = cam.ScreenPointToRay(_mousePos);
                 RaycastHit hit;
 
                 if (Physics.Raycast(ray, out hit, Mathf.Infinity, boxesLayerMask))
@@ -76,7 +93,15 @@ public class Board : MonoBehaviour
                 }
             }
         }
-        else if (canPlay && currentMark == Mark.X && timer <= 0)
+    }
+
+    private void Update()
+    {
+        if (timer > 0)
+        {
+            timer -= Time.deltaTime;
+        }
+        if (canPlay && currentMark == Mark.X && timer <= 0)
         {
             Box[] allBoxes = FindObjectsOfType<Box>();
 
