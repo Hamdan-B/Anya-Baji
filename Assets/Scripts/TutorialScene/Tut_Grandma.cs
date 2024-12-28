@@ -9,6 +9,7 @@ public class Tut_Grandma : MonoBehaviour
 
     TutorialSceneManager tutorialSceneManager;
 
+    PlayerManager playerManager;
     public CinemachineVirtualCamera grandmaVirtualCam;
     PlayerControls playerControls;
 
@@ -28,6 +29,7 @@ public class Tut_Grandma : MonoBehaviour
     void Start()
     {
         tutorialSceneManager = FindObjectOfType<TutorialSceneManager>();
+        playerManager = FindObjectOfType<PlayerManager>();
     }
 
     void Update() { }
@@ -36,7 +38,9 @@ public class Tut_Grandma : MonoBehaviour
     {
         if (isInside && !dialogueStart)
         {
-            FindObjectOfType<PlayerManager>().SwitchCamera(grandmaVirtualCam);
+            // playerManager.HidePlayer();
+            FindObjectOfType<PlayerManager>()
+                .SwitchCamera(grandmaVirtualCam);
             if (tutorialSceneManager.task3)
             {
                 ThankAnyaForTomato();

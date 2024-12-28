@@ -14,6 +14,7 @@ public class TPP_Controller : MonoBehaviour
     public float speed = 6;
     public float gravity = -9.81f;
     public float jumpHeight = 3;
+    bool canDoubleJump;
     Vector3 velocity;
     bool isGrounded;
 
@@ -80,7 +81,14 @@ public class TPP_Controller : MonoBehaviour
     {
         if (isGrounded)
         {
-            velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
+            canDoubleJump = true; // Reset double jump when grounded
+
+            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+        }
+        else if (canDoubleJump)
+        {
+            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            canDoubleJump = false; // Disable double jump
         }
     }
 }

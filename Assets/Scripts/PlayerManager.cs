@@ -48,6 +48,7 @@ public class PlayerManager : MonoBehaviour
     public void HidePlayer()
     {
         TPP_Controller movementScript = GetComponent<TPP_Controller>();
+        playerCam.Follow = null;
         movementScript.enabled = false;
         mesh.SetActive(false);
     }
@@ -55,6 +56,7 @@ public class PlayerManager : MonoBehaviour
     public void UnHidePlayer()
     {
         TPP_Controller movementScript = GetComponent<TPP_Controller>();
+        playerCam.Follow = gameObject.transform;
         movementScript.enabled = true;
         mesh.SetActive(true);
     }

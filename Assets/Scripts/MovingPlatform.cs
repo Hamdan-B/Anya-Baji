@@ -52,19 +52,18 @@ public class MovingPlatform : MonoBehaviour
         // Check if the player is on the platform
         if (other.CompareTag("Player"))
         {
-            cc = other.GetComponent<CharacterController>();
-            previousPosition = transform.position; // Save the platform's position when player enters
+            Debug.Log("Player is on Moving Platform");
+            other.transform.parent = transform;
         }
     }
 
-    void OnTriggerStay(Collider other)
+    void OnTriggerExit(Collider other)
     {
-        // Move the player with the platform
-        if (other.CompareTag("Player") && cc != null)
+        // Check if the player is on the platform
+        if (other.CompareTag("Player"))
         {
-            // Move the player relative to the platform's movement
-            cc.Move(transform.position - previousPosition);
-            previousPosition = transform.position; // Update the previous position of the platform
+            Debug.Log("Player left the moving Platform");
+            other.transform.parent = null;
         }
     }
 

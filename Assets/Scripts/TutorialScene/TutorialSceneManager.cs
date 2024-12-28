@@ -28,9 +28,12 @@ public class TutorialSceneManager : MonoBehaviour
 
     LoadingSystem loadingSystem;
     public GameObject EndLevelPanel;
+    public GameObject RestartLevelUI;
 
     void Start()
     {
+        Time.timeScale = 1;
+
         task1 = task2 = task3 = task4 = false;
         playerManager = FindObjectOfType<PlayerManager>();
 
@@ -139,6 +142,17 @@ public class TutorialSceneManager : MonoBehaviour
         PlayerPrefs.SetInt("LevelsUnlocked", 1);
         //ScreenCapture.CaptureScreenshot("TutorialSS.png");
         loadingSystem.LoadScene("Title");
+    }
+
+    public void LevelLost()
+    {
+        Time.timeScale = 0;
+        RestartLevelUI.SetActive(true);
+    }
+
+    public void restartBtn()
+    {
+        SceneManager.LoadScene("Level1");
     }
 
     //Indications

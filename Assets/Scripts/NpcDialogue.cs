@@ -78,6 +78,7 @@ public class NpcDialogue : MonoBehaviour
                 dialogueBox.SetActive(false);
                 currentInd = 0;
                 playerManager.ResetCamera();
+                playerManager.UnHidePlayer();
                 playerTouchControls.SetActive(true);
             }
         }
