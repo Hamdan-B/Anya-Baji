@@ -22,7 +22,7 @@ public class TitleScreenManager : MonoBehaviour
     public void StartBtn()
     {
         Debug.Log("Start");
-        int firstTime = PlayerPrefs.GetInt("tutorialEnd", 0);
+        int firstTime = PlayerPrefs.GetInt("firstTime", 0);
         if (firstTime == 0)
         {
             //Start Anya's Story (Cutscene or Text)
@@ -52,10 +52,16 @@ public class TitleScreenManager : MonoBehaviour
         loadingSystem.LoadScene("Level1");
     }
 
+    public void StartLevel2()
+    {
+        loadingSystem.LoadScene("Level2");
+    }
+
     void StartIntro()
     {
         TitleMenu.SetActive(false);
         temp_IntroPanel.SetActive(true);
+        PlayerPrefs.SetInt("firstTime", 1);
     }
 
     void LevelScreen()

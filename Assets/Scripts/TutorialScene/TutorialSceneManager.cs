@@ -28,7 +28,6 @@ public class TutorialSceneManager : MonoBehaviour
 
     LoadingSystem loadingSystem;
     public GameObject EndLevelPanel;
-    public GameObject RestartLevelUI;
 
     void Start()
     {
@@ -55,8 +54,7 @@ public class TutorialSceneManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        // Unsubscribe to avoid memory leaks
-        // dialogueSystem.OnDialogueFinished -= HandleDialogueFinished;
+        dialogueSystem.OnDialogueFinished -= HandleDialogueFinished;
     }
 
     void Update()
@@ -144,15 +142,9 @@ public class TutorialSceneManager : MonoBehaviour
         loadingSystem.LoadScene("Title");
     }
 
-    public void LevelLost()
+    public void NextLevel()
     {
-        Time.timeScale = 0;
-        RestartLevelUI.SetActive(true);
-    }
-
-    public void restartBtn()
-    {
-        SceneManager.LoadScene("Level1");
+        loadingSystem.LoadScene("Level2");
     }
 
     //Indications

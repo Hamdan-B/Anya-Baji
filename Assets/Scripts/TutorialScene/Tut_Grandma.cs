@@ -39,14 +39,15 @@ public class Tut_Grandma : MonoBehaviour
         if (isInside && !dialogueStart)
         {
             // playerManager.HidePlayer();
-            FindObjectOfType<PlayerManager>()
-                .SwitchCamera(grandmaVirtualCam);
+
             if (tutorialSceneManager.task3)
             {
+                FindObjectOfType<PlayerManager>().SwitchCamera(grandmaVirtualCam);
                 ThankAnyaForTomato();
             }
             else if (!tutorialSceneManager.task1)
             {
+                FindObjectOfType<PlayerManager>().SwitchCamera(grandmaVirtualCam);
                 AskAnyaToFindGrandpa();
             }
             //GameObject.FindGameObjectWithTag("NpcInteractBtn").SetActive(false);

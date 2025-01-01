@@ -5,17 +5,17 @@ using UnityEngine;
 public class MovingPlatform : MonoBehaviour
 {
     [SerializeField]
-    private float targetX = 10f; // Target x-axis position relative to the initial position
+    private float targetX = 10f;
 
     [SerializeField]
-    private float speed = 2f; // Speed of the platform
+    private float speed = 2f;
 
-    private Vector3 startPosition; // Initial position of the platform
-    private Vector3 targetPosition; // Target position of the platform
-    private bool movingToTarget = true; // Direction of movement
+    private Vector3 startPosition;
+    private Vector3 targetPosition;
+    private bool movingToTarget = true;
 
-    private CharacterController cc; // Reference to the character controller on the player
-    private Vector3 previousPosition; // To track platform's previous position
+    private CharacterController cc;
+    private Vector3 previousPosition;
 
     void Start()
     {
@@ -30,26 +30,22 @@ public class MovingPlatform : MonoBehaviour
 
     private void MovePlatform()
     {
-        // Determine the destination
         Vector3 destination = movingToTarget ? targetPosition : startPosition;
 
-        // Move the platform
         transform.localPosition = Vector3.MoveTowards(
             transform.localPosition,
             destination,
             speed * Time.deltaTime
         );
 
-        // Check if the platform has reached the destination
         if (Vector3.Distance(transform.localPosition, destination) < 0.01f)
         {
-            movingToTarget = !movingToTarget; // Switch direction
+            movingToTarget = !movingToTarget;
         }
     }
 
     void OnTriggerEnter(Collider other)
     {
-        // Check if the player is on the platform
         if (other.CompareTag("Player"))
         {
             Debug.Log("Player is on Moving Platform");
@@ -59,7 +55,6 @@ public class MovingPlatform : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        // Check if the player is on the platform
         if (other.CompareTag("Player"))
         {
             Debug.Log("Player left the moving Platform");
@@ -69,7 +64,6 @@ public class MovingPlatform : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        // Draw the movement path for visualization in the editor
         if (Application.isPlaying)
             return;
         Vector3 initialPosition = transform.localPosition;

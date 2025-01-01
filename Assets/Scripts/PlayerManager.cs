@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class PlayerManager : MonoBehaviour
     public Transform indicatorTarger;
 
     public float stopDistance = 1f;
+    public GameObject RestartLevelUI;
 
     void Start()
     {
@@ -42,6 +44,11 @@ public class PlayerManager : MonoBehaviour
             {
                 arrow.SetActive(false);
             }
+        }
+
+        if (transform.position.y < -3f)
+        {
+            PlayerGameOver();
         }
     }
 
@@ -79,5 +86,18 @@ public class PlayerManager : MonoBehaviour
             v_cam.Priority = 5;
         }
         playerCam.Priority = 10;
+    }
+
+    void PlayerGameOver()
+    {
+        //GameOver
+        Debug.Log("GameOver");
+        Time.timeScale = 0;
+        RestartLevelUI.SetActive(true);
+    }
+
+    public void RestartBtn()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
