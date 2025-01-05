@@ -15,6 +15,7 @@ public class Level2Manager : MonoBehaviour
         ShopwalaObj;
 
     PlayerManager playerManager;
+    public GameObject playerControls;
     public NpcDialogue dialogueSystem;
     bool handleDialogueAssigned;
     public TMP_Text taskText;
@@ -24,6 +25,8 @@ public class Level2Manager : MonoBehaviour
 
     void Start()
     {
+        playerControls.SetActive(true);
+
         Time.timeScale = 1;
 
         task1 = task2 = task3 = false;
@@ -81,15 +84,21 @@ public class Level2Manager : MonoBehaviour
 
     void LevelComplete()
     {
+        PlayerPrefs.SetInt("LevelsUnlocked", 2);
+
         EndLevelPanel.SetActive(true);
+        Destroy(playerControls);
     }
 
     public void EndLevel()
     {
-        PlayerPrefs.SetInt("tutorialEnd", 1);
-        PlayerPrefs.SetInt("LevelsUnlocked", 1);
         //ScreenCapture.CaptureScreenshot("TutorialSS.png");
         loadingSystem.LoadScene("Title");
+    }
+
+    public void NextLevel()
+    {
+        loadingSystem.LoadScene("Level3");
     }
 
     //Indications

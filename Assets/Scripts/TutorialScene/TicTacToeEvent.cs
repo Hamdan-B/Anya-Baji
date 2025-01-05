@@ -16,9 +16,6 @@ public class TicTacToeEvent : MonoBehaviour
     FloatingText floatingText;
     bool isInside = false;
 
-    public Animator grandPaAnim;
-    public GameObject chair;
-
     bool dialogueStart = false;
 
     PlayerControls playerControls;
@@ -65,8 +62,8 @@ public class TicTacToeEvent : MonoBehaviour
         playerManager.SwitchCamera(grandpaVirtualCam);
 
         //Set GrandPa for Dialogues
-        grandPaAnim.CrossFade("StandingIdle", 0, 0);
-        chair.SetActive(false);
+        //grandPaAnim.CrossFade("StandingIdle", 0, 0);
+        //chair.SetActive(false);
         tutorialSceneManager.task2 = true;
         AskAnyaToGetTomatoes();
     }

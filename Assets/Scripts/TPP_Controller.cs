@@ -25,11 +25,19 @@ public class TPP_Controller : MonoBehaviour
     float turnSmoothVelocity;
     public float turnSmoothTime = 0.1f;
 
+    AudioSource audioSource;
+    public AudioClip jumpSound;
+
     private void Awake()
     {
         playerControls = new PlayerControls();
         playerControls.Player.Enable();
         playerControls.Player.Jump.started += jump;
+    }
+
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void OnDisable()
@@ -79,14 +87,18 @@ public class TPP_Controller : MonoBehaviour
 
     private void jump(InputAction.CallbackContext context)
     {
+        audioSource.clip = jumpSound;
+
         if (isGrounded)
         {
+            audioSource.Play();
             canDoubleJump = true; // Reset double jump when grounded
 
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         }
         else if (canDoubleJump)
         {
+            audioSource.Play();
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
             canDoubleJump = false; // Disable double jump
         }

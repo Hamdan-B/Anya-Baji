@@ -17,6 +17,7 @@ public class TutorialSceneManager : MonoBehaviour
         ShopwalaObj;
 
     PlayerManager playerManager;
+    public GameObject playerControls;
     public NpcDialogue dialogueSystem;
     bool handleDialogueAssigned;
     public TMP_Text taskText;
@@ -28,9 +29,11 @@ public class TutorialSceneManager : MonoBehaviour
 
     LoadingSystem loadingSystem;
     public GameObject EndLevelPanel;
+    AudioSource audioSource;
 
     void Start()
     {
+        playerControls.SetActive(true);
         Time.timeScale = 1;
 
         task1 = task2 = task3 = task4 = false;
@@ -50,6 +53,7 @@ public class TutorialSceneManager : MonoBehaviour
             .GetComponent<LoadingSystem>();
 
         IndicateToGrandma();
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void OnDestroy()
@@ -100,50 +104,24 @@ public class TutorialSceneManager : MonoBehaviour
         }
     }
 
-    private void StartCartThing()
-    {
-        Debug.Log("Cart action executed.");
-
-        cart.SetActive(true);
-        cartCam.gameObject.SetActive(true);
-        collectableContainer.SetActive(true);
-        //playerManager.gameObject.SetActive(false);
-        playerManager.HidePlayer();
-        StartCoroutine(changeCamAfterDelay());
-    }
-
-    IEnumerator changeCamAfterDelay()
-    {
-        yield return new WaitForSeconds(1.5f);
-        playerManager.SwitchCamera(cartCam);
-    }
-
-    private void StopCartThing()
-    {
-        //playerManager.gameObject.SetActive(true);
-        playerManager.UnHidePlayer();
-        cart.SetActive(false);
-        cartCam.gameObject.SetActive(false);
-        collectableContainer.SetActive(false);
-        playerManager.ResetCamera();
-        cartEventComplete = true;
-    }
-
     void LevelComplete()
     {
+        PlayerPrefs.SetInt("tutorialEnd", 1);
+        PlayerPrefs.SetInt("LevelsUnlocked", 1);
         EndLevelPanel.SetActive(true);
+        Destroy(playerControls);
     }
 
     public void EndLevel()
     {
-        PlayerPrefs.SetInt("tutorialEnd", 1);
-        PlayerPrefs.SetInt("LevelsUnlocked", 1);
         //ScreenCapture.CaptureScreenshot("TutorialSS.png");
         loadingSystem.LoadScene("Title");
     }
 
     public void NextLevel()
     {
+        audioSource.Play();
+
         loadingSystem.LoadScene("Level2");
     }
 

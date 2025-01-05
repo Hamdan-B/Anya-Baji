@@ -13,6 +13,7 @@ public class NpcAnimation : MonoBehaviour
         Sitting2,
         SitToStand,
         Angry,
+        SittingTitleScreen,
     }
 
     public AnimNames animations;
